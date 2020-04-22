@@ -4,10 +4,11 @@ import 'package:toast/toast.dart';
 import 'package:toko_apk/config/config_app.dart';
 import 'package:toko_apk/locator.dart';
 import 'package:toko_apk/page/base_view.dart';
+import 'package:toko_apk/page/home.dart';
 import 'package:toko_apk/page/profile/menu_profile.dart';
 import 'package:toko_apk/viewmodel/login_view_model.dart';
 import 'package:toko_apk/service/view_state.dart';
-import 'package:toko_apk/page/home.dart';
+import 'package:toko_apk/page/dasboard.dart';
 import 'package:toko_apk/service/rest_api.dart';
 
 class LoginPage extends StatefulWidget{
@@ -123,8 +124,8 @@ class _stateLoginPage extends State<LoginPage>{
                             };
                            success = await model.login(dataMember);
                             if(success){
-                              Toast.show("Login Success", context, duration: 4);
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MenuProfile()));
+                              //Toast.show("Login Success", context, duration: 4);
+                              await Navigator.push(context, MaterialPageRoute(builder: (_)=>Homepage()));
                               //Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
                             }
                             else{
