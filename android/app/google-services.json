@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "865351611087",
+    "firebase_url": "https://tokoapk-c0649.firebaseio.com",
+    "project_id": "tokoapk-c0649",
+    "storage_bucket": "tokoapk-c0649.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:865351611087:android:567096a2dd8cfe5b823dba",
+        "android_client_info": {
+          "package_name": "com.cubecode.toko_apk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "865351611087-kjvq1moifj3aqu9llmdcsrsiigsfrolk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC7neaJpj2YY3meCXUciInzTgVKpF9ii9A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "865351611087-kjvq1moifj3aqu9llmdcsrsiigsfrolk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

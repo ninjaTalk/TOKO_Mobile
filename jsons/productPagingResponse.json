@@ -1,0 +1,6 @@
+{
+  "success": true,
+  "data": "$[]product",
+  "message": "Products retrieved successfully",
+  "code": 200
+}
