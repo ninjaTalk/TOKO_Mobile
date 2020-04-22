@@ -1,20 +1,30 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toast/toast.dart';
+import 'package:toko_apk/config/config_app.dart';
+import 'package:toko_apk/locator.dart';
 import 'package:toko_apk/page/base_view.dart';
 import 'package:toko_apk/page/profile/menu_profile.dart';
 import 'package:toko_apk/viewmodel/login_view_model.dart';
 import 'package:toko_apk/service/view_state.dart';
 import 'package:toko_apk/page/home.dart';
+import 'package:toko_apk/service/rest_api.dart';
 
 class LoginPage extends StatefulWidget{
   @override
   State<StatefulWidget> createState() => _stateLoginPage();
 }
 class _stateLoginPage extends State<LoginPage>{
+  RestClient _api = locator<RestClient>();
   TextEditingController usernameController;
   TextEditingController passwordController;
   String getEmail;
   String getPassword;
+  bool success =  false;
+  Map<String, dynamic> dataMember;
+  String token;
+  SharedPreferences sharedPreferences;
+
 
   setEmail(String email){
     if(email.length>0 && email!= null){
@@ -35,9 +45,6 @@ class _stateLoginPage extends State<LoginPage>{
   @override
   Widget build(BuildContext context) {
     return BaseView<LoginViewModel>(
-      onModelReady: (model){
-        model.main();
-      },
       builder: (context, model, child)=>Scaffold(
           body: Form(
             child: Container(
@@ -110,12 +117,18 @@ class _stateLoginPage extends State<LoginPage>{
                           elevation: 5,
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0),),
                           onPressed: () async{
-                            await model.login(getEmail, getPassword);
-                            if(model.auth == AuthStatus.Logged_In){
-                              //Navigator.push(context, MaterialPageRoute(builder: (context)=>MenuProfile()));
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
-                            }else{
-                              Toast.show("Yout account is not registry in out database", context, duration: 4);
+                            dataMember= {
+                              "email" : getEmail,
+                              "password" : getPassword
+                            };
+                           success = await model.login(dataMember);
+                            if(success){
+                              Toast.show("Login Success", context, duration: 4);
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=>MenuProfile()));
+                              //Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+                            }
+                            else{
+                              Toast.show("Error ${model.errorMessage}", context, duration: 4);
                             }
                           }),)
                   ],
