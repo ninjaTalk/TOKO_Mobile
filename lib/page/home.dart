@@ -26,11 +26,11 @@ class _HomePageState extends State<Homepage>{
 
     List<BottomNavigationBarItem> bottomNavItem = [
       BottomNavigationBarItem(
-        icon: Icon(Icons.format_list_bulleted,color: Colors.blue ),
+        icon: Icon( Icons.format_list_bulleted,color: _currentState == 0 ? Colors.blue : Colors.black45),
         title: Text("Home"),
       ),
       BottomNavigationBarItem(
-          icon: Icon(Icons.business_center, color:  Colors.blue ),
+          icon: Icon(Icons.business_center, color:  _currentState == 1 ? Colors.blue : Colors.black45),
           title: Text("Profile")
       )
     ];
