@@ -16,10 +16,6 @@ class LoginViewModel extends BaseViewModel{
 
   Post postData;
 
-  BaseAuth _auth;
-
-  Auth _resAuth;
-
   FirebaseUser user;
 
   Member member;
@@ -33,19 +29,13 @@ class LoginViewModel extends BaseViewModel{
   String token;
 
   Future login(Map<String, dynamic> dataMember) async{
-//    print("disini");
-//    AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-//    FirebaseUser user = result.user;
-//    print(user.uid);
-//    if(user.uid!=null && user.uid.length>0){
-//      setAuth(AuthStatus.Logged_In);
-//    }
     setState(ViewState.Busy);
       MemberResponse memberResponse = await _api.login(dataMember);
       member = memberResponse.data;
       if(!memberResponse.success){
         setState(ViewState.Idle);
         errorMessage = memberResponse.message;
+        return memberResponse.success;
       }
       if(memberResponse.success) {
         _api.sp = await SharedPreferences.getInstance();

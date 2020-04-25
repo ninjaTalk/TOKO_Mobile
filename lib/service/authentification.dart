@@ -1,33 +1,50 @@
 import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
-
-abstract class BaseAuth{
-  Future<String> signIn(String email, String password);
-  Future<FirebaseUser> getCurrentUser();
-  Future<void> signOut();
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toko_apk/config/config_app.dart';
+import 'package:toko_apk/login.dart';
+import 'package:toko_apk/page/home.dart';
+import 'package:toko_apk/service/view_state.dart';
+enum AuthStatus{ Logged_In, Logged_Out }
+class AuthPage extends StatefulWidget{
+  @override
+  _AuthPageState createState() =>_AuthPageState();
 }
 
-class Auth implements BaseAuth{
-
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+class _AuthPageState extends State<AuthPage>{
+  AuthStatus _status = AuthStatus.Logged_Out;
 
   @override
-  Future<FirebaseUser> getCurrentUser() async {
-    FirebaseUser user = await _firebaseAuth.currentUser();
-    return user;
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getMenu();
   }
 
   @override
-  Future<String> signIn(String email, String password) async {
-    print("samopai sini");
-    AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
-    FirebaseUser user = result.user;
-    return user.uid;
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    switch(_status){
+      case AuthStatus.Logged_In:
+        return new Homepage();
+        break;
+      case AuthStatus.Logged_Out:
+        return new LoginPage();
+        break;
+    }
+    return new LoginPage();
   }
+  getMenu() async{
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var token = sharedPreferences.getString(ConfigApp.API_KEY);
+    if(token!=null){
+      setState(() {
+        _status = AuthStatus.Logged_In;
+      });
+    }else{
+      _status =AuthStatus.Logged_Out;
+    }
 
-  @override
-  Future<void> signOut() {
-    return _firebaseAuth.signOut();
   }
-
 }

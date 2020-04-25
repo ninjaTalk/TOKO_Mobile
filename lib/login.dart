@@ -6,6 +6,7 @@ import 'package:toko_apk/locator.dart';
 import 'package:toko_apk/page/base_view.dart';
 import 'package:toko_apk/page/home.dart';
 import 'package:toko_apk/page/profile/menu_profile.dart';
+import 'package:toko_apk/service/authentification.dart';
 import 'package:toko_apk/viewmodel/login_view_model.dart';
 import 'package:toko_apk/service/view_state.dart';
 import 'package:toko_apk/page/dasboard.dart';
@@ -16,15 +17,34 @@ class LoginPage extends StatefulWidget{
   State<StatefulWidget> createState() => _stateLoginPage();
 }
 class _stateLoginPage extends State<LoginPage>{
-  RestClient _api = locator<RestClient>();
   TextEditingController usernameController;
+
   TextEditingController passwordController;
+
   String getEmail;
+
   String getPassword;
+
   bool success =  false;
+
   Map<String, dynamic> dataMember;
+
   String token;
+
   SharedPreferences sharedPreferences;
+
+  LoginViewModel loginViewModel;
+
+
+//  @override
+//  void initState(){
+//    super.initState();
+//    getSetup();
+//  }
+//
+//  getSetup() async{
+//    await Navigator.pushReplacement(context, MaterialPageRoute(builder: (_)=>Authentificateion()));
+//  }
 
 
   setEmail(String email){
@@ -46,7 +66,10 @@ class _stateLoginPage extends State<LoginPage>{
   @override
   Widget build(BuildContext context) {
     return BaseView<LoginViewModel>(
-      builder: (context, model, child)=>Scaffold(
+      onModelReady: (model){
+        loginViewModel = model;
+      },
+      builder:(context, model, child)=>Scaffold(
           body: Form(
             child: Container(
                 color: Colors.white,
@@ -125,7 +148,7 @@ class _stateLoginPage extends State<LoginPage>{
                            success = await model.login(dataMember);
                             if(success){
                               //Toast.show("Login Success", context, duration: 4);
-                              await Navigator.push(context, MaterialPageRoute(builder: (_)=>Homepage()));
+                              await Navigator.push(context, MaterialPageRoute(builder: (_)=>AuthPage()));
                               //Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
                             }
                             else{
