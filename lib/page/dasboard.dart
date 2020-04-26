@@ -1,4 +1,6 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:toko_apk/service/rest_api.dart';
 import 'package:toko_apk/viewmodel/home_view_model.dart';
 import 'base_view.dart';
 import 'package:toko_apk/service/view_state.dart';
@@ -10,6 +12,7 @@ class DashboardPage extends StatefulWidget {
 }
 
 class _DashboardPageState extends State<DashboardPage> {
+  RestClient _api;
   @override
   Widget build(BuildContext context) {
     return BaseView<HomeViewModel>(
@@ -35,7 +38,7 @@ class _DashboardPageState extends State<DashboardPage> {
                             autoPlay: true,
                             height: 150,
                             enlargeCenterPage: true,
-                            items: model.employees.map((f) {
+                            items: model.products.map((f) {
                               return Builder(
                                 builder: (BuildContext conttext) {
                                   return GestureDetector(
@@ -48,8 +51,7 @@ class _DashboardPageState extends State<DashboardPage> {
                                           color: Colors.white,
                                           borderRadius: BorderRadius.circular(20),
                                           image: DecorationImage(
-                                              image:
-                                              AssetImage("assets/bg/back.jpg"),
+                                              image:CachedNetworkImageProvider("https://aea2719e.ngrok.io${f.image}"),
                                               fit: BoxFit.cover),
                                           boxShadow: [
                                             BoxShadow(
@@ -76,35 +78,28 @@ class _DashboardPageState extends State<DashboardPage> {
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.all(12.0),
-                                              child: Row(
+                                              child: Column(
                                                 mainAxisAlignment:
                                                 MainAxisAlignment.spaceBetween,
                                                 children: <Widget>[
 
                                                   Container(
-                                                    width: 50,
+                                                    width: MediaQuery.of(context).size.width/2,
                                                     height: 50,
                                                     child:
-                                                    Text("${f.employee_name}"),
+                                                    Text("${f.name}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w700),),
                                                   ),
 
-                                                  Expanded(
-                                                      child: Align(
-                                                        alignment: Alignment.topRight,
+                                                  Align(
+                                                        alignment: Alignment.topLeft,
                                                         child:
-                                                        Text("${f.employee_age}"),
-                                                      )),
+                                                        Text("${f.detail}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500)),
+                                                      ),
                                                 ],
                                               ),
                                             ),
 
-                                            Padding(
-                                              padding: EdgeInsets.all(12),
-                                              child: Align(
-                                                alignment: Alignment.bottomLeft,
-                                                child: Text("${f.employee_salary}"),
-                                              ),
-                                            )
+
                                           ],
                                         ),
                                       ),

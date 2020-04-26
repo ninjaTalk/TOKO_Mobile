@@ -13,7 +13,7 @@ class Homepage extends StatefulWidget{
 
 class _HomePageState extends State<Homepage>{
 
-  static int _currentState = 1;
+  static int _currentState = 0;
   var pagecontroller = PageController();
 
   @override

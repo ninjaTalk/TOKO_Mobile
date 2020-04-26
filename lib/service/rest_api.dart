@@ -1,3 +1,4 @@
+import 'package:toko_apk/config/config_app.dart';
 import 'package:toko_apk/models/memberResponse.dart';
 import 'package:toko_apk/models/post.dart';
 import 'package:toko_apk/models/employeeRespon.dart';
@@ -5,9 +6,11 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 
+import 'package:toko_apk/models/productPagingResponse.dart';
+
 class RestClient{
 
-  static String endpoint = 'https://a15d30be.ngrok.io/api';
+  final String endpoint = 'https://aea2719e.ngrok.io/api';
 
   var client = new http.Client();
 
@@ -28,7 +31,19 @@ class RestClient{
     print(response.body);
     print('$endpoint/login');
     return MemberResponse.fromJson(json.decode(response.body));
+  }
 
+  Future<ProductPagingResponse> getProductPaging() async{
+    sp = await SharedPreferences.getInstance();
+    String token = sp.getString(ConfigApp.API_KEY);
+
+    Map<String, String> headers = {
+      "Authorization" : 'Bearer $token',
+      "Accept" : "application/json",
+    };
+
+    var response = await client.get('$endpoint/products', headers: headers);
+    return ProductPagingResponse.fromJson(json.decode(response.body));
   }
 
   Future<Post> getPost() async{
